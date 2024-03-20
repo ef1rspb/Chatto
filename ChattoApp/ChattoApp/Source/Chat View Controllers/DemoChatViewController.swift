@@ -200,7 +200,6 @@ class DemoChatViewController: UIViewController {
                                              shouldUseAlternativePresenter: Bool) -> [ChatInputItemProtocol] {
         var items = [ChatInputItemProtocol]()
         items.append(self.createTextInputItem(dataSource: dataSource))
-        items.append(self.createPhotoInputItem(dataSource: dataSource))
         if shouldUseAlternativePresenter {
             items.append(self.customInputItem(dataSource: dataSource))
         }
@@ -467,14 +466,6 @@ class DemoChatViewController: UIViewController {
         return item
     }
 
-    private static func createPhotoInputItem(dataSource: DemoChatDataSource) -> PhotosChatInputItem {
-        let item = PhotosChatInputItem()
-        item.photoInputHandler = { [weak dataSource] image, _ in
-            dataSource?.addPhotoMessage(image)
-        }
-        return item
-    }
-
     private static func customInputItem(dataSource: DemoChatDataSource) -> ContentAwareInputItem {
         let item = ContentAwareInputItem()
         item.textInputHandler = { [weak dataSource] text in
@@ -497,8 +488,6 @@ extension DemoChatViewController: MessagesSelectorDelegate {
 private protocol PresenterChatInputItemProtocol: AnyObject {
     var presentingController: UIViewController? { get set }
 }
-
-extension PhotosChatInputItem: PresenterChatInputItemProtocol {}
 
 struct ChatInputContainer {
     let presenter: BaseChatInputBarPresenterProtocol
