@@ -83,6 +83,7 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
     private func commonInit() {
         self.addSubview(self.bubbleImageView)
         self.addSubview(self.textView)
+      textView.delegate = self
     }
 
     private lazy var bubbleImageView: UIImageView = {
@@ -93,7 +94,7 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
     }()
 
     private var borderImageView: UIImageView = UIImageView()
-    private var textView: UITextView = {
+    private lazy var textView: UITextView = {
         let textView = ChatMessageTextView()
         UIView.performWithoutAnimation({ () -> Void in // fixes iOS 8 blinking when cell appears
             textView.backgroundColor = UIColor.clear
@@ -216,6 +217,12 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
     public var canCalculateSizeInBackground: Bool {
         return true
     }
+}
+
+extension TextBubbleView: UITextViewDelegate {
+  public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+    false
+  }
 }
 
 private final class TextBubbleLayoutModel {
